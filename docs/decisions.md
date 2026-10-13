@@ -9,3 +9,6 @@
 | 2026-10-13 | Vérité terrain : Suppr = pas un point, K = vrai point sans intérêt (`keep: false`) | Mesurer la détection et le tri « intéressant » séparément |
 | 2026-10-13 | Réglage sur 0-26:08 du premier match, test sur 26:08-50:12 | Éviter de se tromper avec des réglages faits sur les mêmes données |
 | 2026-10-13 | v0 (son seul) gardé comme référence ; v2 = image avec détecteur de joueurs pré-entraîné | Le son entend 96 % des points mais ne sait pas les séparer (voir `research/`) |
+| 2026-10-13 | Stack validée : appli de bureau Tauri 2 + React/TS, moteur Python local | Analyse locale, toutes plateformes, inférence ONNX |
+| 2026-10-13 | Un fil par chantier, chacun propriétaire de ses modules, de sa branche et de sa PR ; plan commun dans `docs/plan.md` | Travailler en parallèle sans conflits |
+| 2026-10-13 | Opus pour le plan et les décisions, Sonnet pour l'exécution, Haiku pour le répétitif | Demande de Maxence |

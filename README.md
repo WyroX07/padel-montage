@@ -12,7 +12,7 @@ Plan et architecture : doc du projet « Logiciel de montage padel : architecture
 | `tools/annotateur/` | Outil HTML pour corriger un prédécoupage et produire la vérité terrain | 0 |
 | `eval/` | Vérité terrain (`annotations/`) et prédictions (`predictions/`), jamais de vidéo | 0 |
 | `research/` | Essais datés : scripts et notes de mesure, gardés même quand ils échouent | 1 et 2 |
-| `docs/` | Décisions d'architecture | |
+| `docs/` | Plan de référence (`plan.md`, à lire avant tout travail) et décisions | |
 | `app/` | Application desktop Tauri + React | 3 et 4 |
 
 ## Boucle de travail sur un rush
