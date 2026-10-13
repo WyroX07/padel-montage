@@ -37,7 +37,7 @@ select{height:32px;border-radius:var(--r);border:1px solid var(--line2);backgrou
 select:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 
 /* layout */
-main{display:grid;grid-template-columns:minmax(0,1fr) 360px;min-height:0}
+main{display:grid;grid-template-columns:minmax(0,1fr) 450px;min-height:0}
 .left{display:flex;flex-direction:column;min-width:0;min-height:0;padding:14px 16px 12px;gap:10px}
 .side{border-left:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;min-height:0}
 
@@ -72,12 +72,12 @@ canvas{display:block;width:100%;border-radius:var(--r);border:1px solid var(--li
 .legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
 
 /* side */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 14px 10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 14px 10px}
 .stat{background:var(--panel2);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px}
 .stat small{display:block;color:var(--muted);font-size:11px}
 .stat b{font:600 17px Inter,system-ui,sans-serif;font-variant-numeric:tabular-nums}
 .stat b.ok{color:var(--ok)}
-.listhead,.row{display:grid;grid-template-columns:34px 1fr 1fr 46px 40px 74px;gap:6px;align-items:center;padding:0 14px}
+.listhead,.row{display:grid;grid-template-columns:30px 1fr 1fr 44px 36px 70px 82px;gap:6px;align-items:center;padding:0 14px}
 .listhead{height:28px;color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.6px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
 #list{flex:1;overflow-y:auto;min-height:0}
 .row{height:34px;cursor:pointer;border-left:3px solid transparent;padding-left:11px;font-variant-numeric:tabular-nums;border-bottom:1px solid #1b1e23}
@@ -90,6 +90,11 @@ canvas{display:block;width:100%;border-radius:var(--r);border:1px solid var(--li
 .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;text-align:center}
 .pill.check{color:var(--check);background:rgba(227,169,58,.13)}
 .pill.ok{color:var(--ok);background:rgba(71,192,138,.13)}
+.row.skip{color:var(--muted)}
+.row.skip .pill{filter:grayscale(1);opacity:.7}
+.skipbtn{font:600 11px Inter,system-ui,sans-serif;border:1px solid var(--line2);background:transparent;color:var(--dim);border-radius:999px;padding:2px 0;cursor:pointer;width:100%;white-space:nowrap}
+.skipbtn:hover{color:var(--text);border-color:#3c424e}
+.skipbtn.on{background:#3a3e46;color:#c9ccd3;border-color:#555b66}
 .nolist{padding:28px 18px;color:var(--muted);text-align:center}
 .sidefoot{border-top:1px solid var(--line);padding:10px 14px;display:flex;gap:8px;flex-wrap:wrap;color:var(--dim);font-size:12px;align-items:center}
 
@@ -102,7 +107,7 @@ canvas{display:block;width:100%;border-radius:var(--r);border:1px solid var(--li
 .keys{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:8px 12px;align-items:center}
 .keys .k{display:flex;gap:4px;justify-content:flex-end;flex-wrap:wrap}
 .card .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
-@media (max-width:1100px){main{grid-template-columns:minmax(0,1fr) 300px}.listhead,.row{grid-template-columns:28px 1fr 1fr 40px 34px 66px}.keys{grid-template-columns:auto 1fr}}
+@media (max-width:1100px){main{grid-template-columns:minmax(0,1fr) 400px}.listhead,.row{grid-template-columns:26px 1fr 1fr 38px 30px 64px 74px}.keys{grid-template-columns:auto 1fr}}
 </style>
 </head>
 <body>
@@ -154,7 +159,7 @@ canvas{display:block;width:100%;border-radius:var(--r);border:1px solid var(--li
 
     <div class="tl">
       <label>Vue d'ensemble
-        <span class="legend"><span><i style="background:var(--check)"></i>À vérifier</span><span><i style="background:var(--ok)"></i>Validé</span><span><i style="background:var(--accent);opacity:.4"></i>Relu</span></span>
+        <span class="legend"><span><i style="background:#6b707a"></i>Sans intérêt</span><span><i style="background:var(--check)"></i>À vérifier</span><span><i style="background:var(--ok)"></i>Validé</span><span><i style="background:var(--accent);opacity:.4"></i>Relu</span></span>
       </label>
       <canvas id="ov"></canvas>
     </div>
@@ -168,9 +173,10 @@ canvas{display:block;width:100%;border-radius:var(--r);border:1px solid var(--li
     <div class="stats">
       <div class="stat"><small>Segments</small><b id="stCount">0</b></div>
       <div class="stat"><small>Validés</small><b id="stOk" class="ok">0</b></div>
+      <div class="stat"><small>Sans intérêt</small><b id="stSkip">0</b></div>
       <div class="stat"><small>Relu jusqu'à</small><b id="stRev">00:00</b></div>
     </div>
-    <div class="listhead"><span>N°</span><span>Début</span><span>Fin</span><span>Durée</span><span>Conf.</span><span>Statut</span></div>
+    <div class="listhead"><span>N°</span><span>Début</span><span>Fin</span><span>Durée</span><span>Conf.</span><span>Statut</span><span>Intérêt</span></div>
     <div id="list"><div class="nolist">Aucun segment.<br>Placez la tête de lecture et appuyez sur <kbd>N</kbd>.</div></div>
     <div class="sidefoot"><span id="saveInfo">Sauvegarde automatique</span></div>
   </aside>
@@ -179,7 +185,7 @@ canvas{display:block;width:100%;border-radius:var(--r);border:1px solid var(--li
 <div class="overlay" id="help" hidden>
   <div class="card" role="dialog" aria-label="Aide">
     <h3>Règle d'annotation</h3>
-    <div class="rule">Début du point = le moment où le serveur fait rebondir la balle pour servir. Fin du point = le moment où le point est joué (balle morte : faute, deuxième rebond, balle dans le filet). Pas de marge : les marges seront ajoutées au montage. Les échauffements et balles d'entraînement ne sont pas des points.</div>
+    <div class="rule">Début du point = le moment où le serveur fait rebondir la balle pour servir. Fin du point = le moment où le point est joué (balle morte : faute, deuxième rebond, balle dans le filet). Pas de marge : les marges seront ajoutées au montage. Supprimer (Suppr) = ce n'est pas un point (échauffement, balles d'entraînement). Sans intérêt (K) = vrai point que tu ne veux pas au montage.</div>
     <h3>Raccourcis clavier</h3>
     <div class="keys" style="margin-top:10px">
       <div class="k"><kbd>Espace</kbd></div><div>Lecture / pause</div>
@@ -191,6 +197,7 @@ canvas{display:block;width:100%;border-radius:var(--r);border:1px solid var(--li
       <div class="k"><kbd>O</kbd></div><div>Fin du segment = tête de lecture</div>
       <div class="k"><kbd>N</kbd></div><div>Nouveau segment (5 s) à la tête de lecture</div>
       <div class="k"><kbd>Suppr</kbd><kbd>←⌫</kbd></div><div>Supprimer le segment courant</div>
+      <div class="k"><kbd>K</kbd></div><div>Basculer « sans intérêt » sur le segment courant</div>
       <div class="k"><kbd>Entrée</kbd></div><div>Valider, puis segment suivant (début − 2 s)</div>
       <div class="k"><kbd>Maj</kbd>+<kbd>Entrée</kbd></div><div>Segment précédent</div>
       <div class="k"><kbd>S</kbd></div><div>Scinder le segment à la tête de lecture</div>
@@ -386,7 +393,7 @@ function newSeg() {
   const end = Math.min(t + 5000, nextStart);
   if (end - t < MIN) return toast('Pas assez de place ici pour un segment');
   if (end < t + 5000) toast('Segment raccourci : le suivant commence à ' + fmt(nextStart));
-  const seg = { id: S.nextId++, s: t, e: end, hits: [], conf: null, status: 'check' };
+  const seg = { id: S.nextId++, s: t, e: end, hits: [], conf: null, status: 'check', keep: true };
   pushUndo(); S.segs.splice(i, 0, seg); S.sel = seg.id; lastUnder = seg.id; commit(); updateSel(true);
 }
 function delSeg() {
@@ -427,7 +434,7 @@ function splitSeg() {
   let c = cur(); if (!c || p <= c.s || p >= c.e) c = segAt(p);
   if (!c || p - c.s < MIN || c.e - p < MIN) return toast('Placez la tête de lecture à l\'intérieur d\'un segment pour le scinder');
   pushUndo();
-  const b = { id: S.nextId++, s: p, e: c.e, hits: c.hits.filter(h => h >= p), conf: c.conf, status: 'check' };
+  const b = { id: S.nextId++, s: p, e: c.e, hits: c.hits.filter(h => h >= p), conf: c.conf, status: 'check', keep: c.keep };
   c.hits = c.hits.filter(h => h < p); c.e = p;
   S.segs.splice(idx(c.id) + 1, 0, b); S.sel = b.id; lastUnder = b.id;
   commit(); updateSel(true);
@@ -439,7 +446,13 @@ function mergeSeg() {
   c.e = n.e; c.hits = c.hits.concat(n.hits);
   c.conf = (c.conf == null) ? n.conf : (n.conf == null ? c.conf : Math.min(c.conf, n.conf));
   c.status = (c.status === 'ok' && n.status === 'ok') ? 'ok' : 'check';
+  c.keep = (c.keep === false && n.keep === false) ? false : true;
   S.segs.splice(i + 1, 1); commit(); updateSel(true);
+}
+function toggleSkip(c) {
+  c = c || cur(); if (!c) return toast('Aucun segment sélectionné');
+  pushUndo(); c.keep = c.keep === false ? true : false;
+  commit(); toast(c.keep === false ? 'Segment n° ' + (idx(c.id) + 1) + ' : sans intérêt' : 'Segment n° ' + (idx(c.id) + 1) + ' : conservé');
 }
 function setReviewed() {
   const t = Math.round(curT());
@@ -456,11 +469,14 @@ function renderList() {
   S.segs.forEach((s, i) => {
     const cf = s.conf == null ? '<span class="muted">—</span>'
       : '<span class="cf" title="Confiance ' + s.conf.toFixed(2) + '"><b style="width:' + Math.round(clamp(s.conf, 0, 1) * 100) + '%;background:' + confColor(s.conf) + '"></b></span>';
-    out.push('<div class="row' + (s.id === S.sel ? ' sel' : '') + '" data-id="' + s.id + '"><span class="n">' + (i + 1) + '</span><span>' + fmt(s.s) + '</span><span>' + fmt(s.e) + '</span><span class="d">' + ((s.e - s.s) / 1000).toFixed(1) + 's</span>' + cf + '<span><span class="pill ' + s.status + '">' + (s.status === 'ok' ? 'Validé' : 'À vérifier') + '</span></span></div>');
+    const sk = s.keep === false;
+    out.push('<div class="row' + (s.id === S.sel ? ' sel' : '') + (sk ? ' skip' : '') + '" data-id="' + s.id + '"><span class="n">' + (i + 1) + '</span><span>' + fmt(s.s) + '</span><span>' + fmt(s.e) + '</span><span class="d">' + ((s.e - s.s) / 1000).toFixed(1) + 's</span>' + cf + '<span><span class="pill ' + s.status + '">' + (s.status === 'ok' ? 'Validé' : 'À vérifier') + '</span></span><span><button class="skipbtn' + (sk ? ' on' : '') + '" data-skip="' + s.id + '" title="Sans intérêt (K)" aria-pressed="' + sk + '">' + (sk ? 'Sans intérêt' : '⊘') + '</button></span></div>');
   });
   listEl.innerHTML = out.join('');
 }
 listEl.addEventListener('click', e => {
+  const sb = e.target.closest('.skipbtn');
+  if (sb) { const s = S.segs.find(x => x.id === +sb.dataset.skip); if (s) toggleSkip(s); return; }
   const r = e.target.closest('.row'); if (!r) return;
   const s = S.segs.find(x => x.id === +r.dataset.id); if (s) jumpTo(s);
 });
@@ -473,6 +489,7 @@ function updateSel(scroll) {
 function updateInfo() {
   $('stCount').textContent = S.segs.length;
   $('stOk').textContent = S.segs.filter(s => s.status === 'ok').length;
+  $('stSkip').textContent = S.segs.filter(s => s.keep === false).length;
   $('stRev').textContent = fmt(S.reviewed, true);
   $('stRev').title = fmt(S.reviewed) + (S.total ? ' (' + Math.round(S.reviewed / S.total * 100) + ' % de la vidéo)' : '');
   const c = cur(), b = $('segBadge');
@@ -500,6 +517,13 @@ function fit(c) {
   return { ctx, w, h };
 }
 const FONT = '11px Inter,system-ui,sans-serif';
+function hatch(ctx, x, y, w, h, col) {
+  if (w <= 0 || h <= 0) return;
+  ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.beginPath();
+  for (let d = -h; d < w; d += 6) { ctx.moveTo(x + d, y + h); ctx.lineTo(x + d + h, y); }
+  ctx.stroke(); ctx.restore();
+}
 function drawOverview() {
   const { ctx, w, h } = fit(ov);
   ctx.clearRect(0, 0, w, h);
@@ -528,6 +552,12 @@ function drawOverview() {
   // segments
   for (const s of S.segs) {
     const x = X(s.s), wd = Math.max(2, X(s.e) - x);
+    if (s.keep === false) {
+      ctx.globalAlpha = .9; ctx.fillStyle = '#4a4e57'; ctx.fillRect(x, y0, wd, y1 - y0);
+      hatch(ctx, x, y0, wd, y1 - y0, 'rgba(255,255,255,.28)');
+      if (s.status === 'ok') { ctx.globalAlpha = 1; ctx.fillStyle = C.ok; ctx.fillRect(x, y1 - 3, wd, 3); }
+      continue;
+    }
     ctx.fillStyle = s.status === 'ok' ? C.ok : C.check; ctx.globalAlpha = s.status === 'ok' ? .9 : .85;
     ctx.fillRect(x, y0, wd, y1 - y0);
   }
@@ -569,9 +599,10 @@ function drawZoom() {
   const sel = S.sel;
   S.segs.forEach((s, i) => {
     if (s.e < t0 || s.s > t0 + SPAN) return;
-    const xs = X(s.s), xe = X(s.e), col = s.status === 'ok' ? C.ok : C.check;
-    ctx.globalAlpha = .28; ctx.fillStyle = col; ctx.fillRect(xs, y0, xe - xs, y1 - y0);
-    ctx.globalAlpha = 1; ctx.fillRect(xs, y0, xe - xs, 3);
+    const xs = X(s.s), xe = X(s.e), skip = s.keep === false, col = skip ? '#7b808a' : (s.status === 'ok' ? C.ok : C.check);
+    ctx.globalAlpha = skip ? .35 : .28; ctx.fillStyle = col; ctx.fillRect(xs, y0, xe - xs, y1 - y0);
+    if (skip) hatch(ctx, xs, y0, xe - xs, y1 - y0, 'rgba(255,255,255,.25)');
+    ctx.globalAlpha = 1; ctx.fillStyle = col; ctx.fillRect(xs, y0, xe - xs, 3);
     if (s.id === sel) { ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.strokeRect(xs, y0, xe - xs, y1 - y0); }
     // poignées
     ctx.fillStyle = s.id === sel ? '#fff' : 'rgba(255,255,255,.55)';
@@ -579,7 +610,7 @@ function drawZoom() {
     if (xe - xs > 40) {
       ctx.save(); ctx.beginPath(); ctx.rect(xs + 6, y0, xe - xs - 12, y1 - y0); ctx.clip();
       ctx.fillStyle = C.text; ctx.font = '600 12px Inter,system-ui,sans-serif'; ctx.fillText('n° ' + (i + 1), xs + 8, y0 + 8);
-      ctx.fillStyle = C.muted; ctx.font = FONT; ctx.fillText(((s.e - s.s) / 1000).toFixed(1) + ' s', xs + 8, y0 + 24);
+      ctx.fillStyle = C.muted; ctx.font = FONT; ctx.fillText(((s.e - s.s) / 1000).toFixed(1) + ' s' + (skip ? ' · sans intérêt' : ''), xs + 8, y0 + 24);
       ctx.restore();
     }
   });
@@ -723,6 +754,7 @@ window.addEventListener('keydown', e => {
     case k === 'Enter': e.shiftKey ? prevSeg() : validate(); break;
     case kl === 's': splitSeg(); break;
     case kl === 'm': mergeSeg(); break;
+    case kl === 'k': toggleSkip(); break;
     case kl === 'r': setReviewed(); break;
     default: handled = false;
   }
@@ -807,7 +839,7 @@ $('fVideos').addEventListener('change', async e => {
     if (!resume) { try { localStorage.removeItem(S.key); } catch (err) {} }
   }
   if (resume) {
-    S.segs = saved.segs.map(s => ({ ...s })); S.reviewed = saved.reviewed || 0; S.camera = saved.camera || CAM_DEFAULT;
+    S.segs = saved.segs.map(s => ({ ...s, keep: s.keep !== false })); S.reviewed = saved.reviewed || 0; S.camera = saved.camera || CAM_DEFAULT;
     S.videoName = saved.videoName || ''; S.nextId = Math.max(saved.nextId || 1, ...S.segs.map(s => s.id + 1), 1);
     t0 = saved.t || 0;
   } else {
@@ -827,7 +859,8 @@ function parsePred(o) {
   const segs = o.rallies.map(r => ({
     s: Math.round(+r.start_ms), e: Math.round(+r.end_ms),
     hits: Array.isArray(r.hits) ? r.hits.map(Number).filter(Number.isFinite) : [],
-    conf: typeof r.confidence === 'number' ? r.confidence : null
+    conf: typeof r.confidence === 'number' ? r.confidence : null,
+    keep: r.keep !== false
   })).filter(r => Number.isFinite(r.s) && Number.isFinite(r.e) && r.e > r.s).sort((a, b) => a.s - b.s);
   return { video: o.video || '', camera: o.camera || '', duration: o.duration_ms, gt: o.source === 'ground_truth', reviewed: +o.reviewed_until_ms || 0, segs };
 }
@@ -837,7 +870,7 @@ function applyPredData(pred, warn) {
   for (const r of pred.segs) {
     const s = Math.max(r.s, prev), e = Math.min(r.e, total);
     if (e - s < MIN) continue;
-    out.push({ id: S.nextId++, s, e, hits: r.hits, conf: r.conf, status: pred.gt ? 'ok' : 'check' });
+    out.push({ id: S.nextId++, s, e, hits: r.hits, conf: r.conf, status: pred.gt ? 'ok' : 'check', keep: r.keep !== false });
     prev = e;
   }
   S.segs = out;
@@ -873,7 +906,7 @@ function doExport() {
   let name = S.videoName;
   if (!name) name = S.files[0].name;
   const base = (S.videoName ? name : name.replace(/_\d+(?=\.[^.]*$)/, '')).replace(/\.[^.]+$/, '') || 'match';
-  const rallies = S.segs.filter(s => s.s < S.reviewed).sort((a, b) => a.s - b.s).map(s => ({ start_ms: Math.round(s.s), end_ms: Math.round(s.e), hits: [] }));
+  const rallies = S.segs.filter(s => s.s < S.reviewed).sort((a, b) => a.s - b.s).map(s => ({ start_ms: Math.round(s.s), end_ms: Math.round(s.e), hits: [], keep: s.keep !== false }));
   const out = {
     format: 'padel-rallies/v1', video: name, camera: S.camera, duration_ms: Math.round(S.total),
     source: 'ground_truth', reviewed_until_ms: Math.round(S.reviewed), rallies
@@ -892,7 +925,7 @@ $('btnPlay').onclick = () => togglePlay();
 $('rateChip').onclick = () => stepRate(S.rate === RATES[RATES.length - 1] ? -RATES.length : 1);
 
 updateUndoBtns(); updateInfo(); scheduleDraw();
-window.__annot = { S, seekTo, curT };   // utile pour les tests
+window.__annot = { S, seekTo, curT, doExport };   // utile pour les tests
 })();
 </script>
 </body>
