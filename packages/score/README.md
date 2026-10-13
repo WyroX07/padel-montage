@@ -3,7 +3,7 @@
 Règles de score du padel, en TypeScript pur, sans dépendance.
 
 - Points 0, 15, 30, 40 ; à 40-40 au choix : **avantages sans limite** (défaut), **punto de oro**, ou **star point** (règle FIP 2026 : deux avantages, puis point décisif à la 3e égalité).
-- Sets à 6 jeux (ou 4), deux jeux d'écart, tie-break à 7 à 6-6 (désactivable), set décisif normal ou **super tie-break à 10**, match en 1, 3 ou 5 sets.
+- Sets à 6 jeux (ou 4), deux jeux d'écart, tie-break à 7 à 6-6 (désactivable), match en 2 sets gagnants avec **super tie-break à 10 à une manche partout** (défaut) ou 3e set complet, ou en 1 set.
 - Service : rotation A1, B1, A2, B2 ; en tie-break, 1 point puis 2 points chacun ; après un tie-break, l'équipe qui a reçu le premier point sert. Correction manuelle possible (événement `server`).
 - Balles de break, de set et de match calculées pour l'overlay.
 - Départ en cours de match (`config.start`).

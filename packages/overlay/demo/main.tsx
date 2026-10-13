@@ -186,7 +186,7 @@ function Segmented<T extends string>(props: {
 
 function App() {
   const [deuceRule, setDeuceRule] = useState<DeuceRule>("advantage");
-  const [format, setFormat] = useState<Format>("3-sets");
+  const [format, setFormat] = useState<Format>("super-tb");
   const [variant, setVariant] = useState<ScorebugVariant>("nuit");
   const [accent, setAccent] = useState(ACCENTS[0]!.value);
   const [events, setEvents] = useState<ScoreEvent[]>(SCENARIOS[0]!.events);
@@ -285,8 +285,8 @@ function App() {
             value={format}
             onChange={setFormat}
             options={[
-              { value: "3-sets", label: "3 sets" },
-              { value: "super-tb", label: "3e set en super tie-break" },
+              { value: "super-tb", label: "2 sets + super tie-break" },
+              { value: "3-sets", label: "2 sets gagnants" },
               { value: "1-set", label: "1 set" },
             ]}
           />
@@ -330,7 +330,7 @@ function App() {
                 className="chip"
                 onClick={() => {
                   setDeuceRule(s.deuce ?? "advantage");
-                  setFormat(s.format ?? "3-sets");
+                  setFormat(s.format ?? "super-tb");
                   setEvents(s.events);
                 }}
               >

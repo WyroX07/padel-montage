@@ -32,7 +32,10 @@ export interface MatchConfig {
   /** Tie-break à égalité `gamesPerSet`-`gamesPerSet`. Sinon on joue jusqu'à deux jeux d'écart. */
   tiebreak: boolean;
   tiebreakPoints: number;
-  /** Set décisif joué normalement, ou remplacé par un super tie-break. */
+  /**
+   * À une manche partout : 3e set complet (`full`), ou super tie-break à 10 (`super-tiebreak`, défaut,
+   * le format le plus joué en loisir).
+   */
   finalSet: "full" | "super-tiebreak";
   superTiebreakPoints: number;
   firstServer: Server;
@@ -59,7 +62,7 @@ export const DEFAULT_CONFIG: MatchConfig = {
   deuceRule: "advantage",
   tiebreak: true,
   tiebreakPoints: 7,
-  finalSet: "full",
+  finalSet: "super-tiebreak",
   superTiebreakPoints: 10,
   firstServer: { team: "A", player: 0 },
 };

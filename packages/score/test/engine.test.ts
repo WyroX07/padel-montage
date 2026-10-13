@@ -117,6 +117,11 @@ describe("jeux et sets", () => {
     expect(scoreLine(c, end.state)).toBe("6-0 0-6 [10-0]");
   });
 
+  it("par défaut : 2 sets gagnants, super tie-break à une manche partout", () => {
+    expect(last(cfg(), games("A", 6) + games("B", 6)).state.phase).toBe("super-tiebreak");
+    expect(last(cfg({ finalSet: "full" }), games("A", 6) + games("B", 6)).state.phase).toBe("game");
+  });
+
   it("un seul set", () => {
     const c = cfg({ bestOf: 1, finalSet: "super-tiebreak" });
     expect(last(c, games("B", 6)).state.winner).toBe("B");
