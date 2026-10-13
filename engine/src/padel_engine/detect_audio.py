@@ -30,7 +30,7 @@ class AudioV0Params:
     max_gap_s: float = 2.5
     min_hits: int = 4
     pre_s: float = 0.3
-    post_s: float = 1.0
+    post_s: float = 2.0
 
 
 def onset_strength(wav_path: str | Path) -> tuple[np.ndarray, float]:

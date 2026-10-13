@@ -1,0 +1,300 @@
+{
+ "format": "padel-rallies/v1",
+ "video": "match.MOV",
+ "camera": "trepied_vitre",
+ "duration_ms": 3145564,
+ "source": "ground_truth",
+ "reviewed_until_ms": 1568658,
+ "rallies": [
+  {
+   "start_ms": 180420,
+   "end_ms": 184730,
+   "hits": []
+  },
+  {
+   "start_ms": 194340,
+   "end_ms": 201587,
+   "hits": []
+  },
+  {
+   "start_ms": 215460,
+   "end_ms": 221865,
+   "hits": []
+  },
+  {
+   "start_ms": 233780,
+   "end_ms": 243005,
+   "hits": []
+  },
+  {
+   "start_ms": 261020,
+   "end_ms": 267635,
+   "hits": []
+  },
+  {
+   "start_ms": 273285,
+   "end_ms": 283745,
+   "hits": []
+  },
+  {
+   "start_ms": 285730,
+   "end_ms": 296419,
+   "hits": []
+  },
+  {
+   "start_ms": 300875,
+   "end_ms": 309915,
+   "hits": []
+  },
+  {
+   "start_ms": 322376,
+   "end_ms": 343305,
+   "hits": []
+  },
+  {
+   "start_ms": 348724,
+   "end_ms": 373032,
+   "hits": []
+  },
+  {
+   "start_ms": 379265,
+   "end_ms": 390095,
+   "hits": []
+  },
+  {
+   "start_ms": 399675,
+   "end_ms": 410968,
+   "hits": []
+  },
+  {
+   "start_ms": 417430,
+   "end_ms": 425085,
+   "hits": []
+  },
+  {
+   "start_ms": 441730,
+   "end_ms": 450990,
+   "hits": []
+  },
+  {
+   "start_ms": 452835,
+   "end_ms": 462065,
+   "hits": []
+  },
+  {
+   "start_ms": 465850,
+   "end_ms": 475535,
+   "hits": []
+  },
+  {
+   "start_ms": 484245,
+   "end_ms": 500340,
+   "hits": []
+  },
+  {
+   "start_ms": 505975,
+   "end_ms": 513307,
+   "hits": []
+  },
+  {
+   "start_ms": 533219,
+   "end_ms": 540114,
+   "hits": []
+  },
+  {
+   "start_ms": 553170,
+   "end_ms": 560085,
+   "hits": []
+  },
+  {
+   "start_ms": 565667,
+   "end_ms": 572067,
+   "hits": []
+  },
+  {
+   "start_ms": 584785,
+   "end_ms": 592588,
+   "hits": []
+  },
+  {
+   "start_ms": 616465,
+   "end_ms": 624587,
+   "hits": []
+  },
+  {
+   "start_ms": 643639,
+   "end_ms": 650490,
+   "hits": []
+  },
+  {
+   "start_ms": 660427,
+   "end_ms": 672437,
+   "hits": []
+  },
+  {
+   "start_ms": 681676,
+   "end_ms": 685235,
+   "hits": []
+  },
+  {
+   "start_ms": 692774,
+   "end_ms": 706328,
+   "hits": []
+  },
+  {
+   "start_ms": 727093,
+   "end_ms": 736720,
+   "hits": []
+  },
+  {
+   "start_ms": 746875,
+   "end_ms": 760707,
+   "hits": []
+  },
+  {
+   "start_ms": 776525,
+   "end_ms": 781525,
+   "hits": []
+  },
+  {
+   "start_ms": 799744,
+   "end_ms": 804914,
+   "hits": []
+  },
+  {
+   "start_ms": 816505,
+   "end_ms": 823330,
+   "hits": []
+  },
+  {
+   "start_ms": 833189,
+   "end_ms": 844156,
+   "hits": []
+  },
+  {
+   "start_ms": 861663,
+   "end_ms": 868068,
+   "hits": []
+  },
+  {
+   "start_ms": 871350,
+   "end_ms": 877346,
+   "hits": []
+  },
+  {
+   "start_ms": 892835,
+   "end_ms": 909500,
+   "hits": []
+  },
+  {
+   "start_ms": 913155,
+   "end_ms": 920143,
+   "hits": []
+  },
+  {
+   "start_ms": 921385,
+   "end_ms": 935810,
+   "hits": []
+  },
+  {
+   "start_ms": 947575,
+   "end_ms": 959879,
+   "hits": []
+  },
+  {
+   "start_ms": 971576,
+   "end_ms": 977907,
+   "hits": []
+  },
+  {
+   "start_ms": 999324,
+   "end_ms": 1010115,
+   "hits": []
+  },
+  {
+   "start_ms": 1015712,
+   "end_ms": 1024515,
+   "hits": []
+  },
+  {
+   "start_ms": 1032930,
+   "end_ms": 1041644,
+   "hits": []
+  },
+  {
+   "start_ms": 1048815,
+   "end_ms": 1055851,
+   "hits": []
+  },
+  {
+   "start_ms": 1072235,
+   "end_ms": 1083175,
+   "hits": []
+  },
+  {
+   "start_ms": 1182440,
+   "end_ms": 1200389,
+   "hits": []
+  },
+  {
+   "start_ms": 1236936,
+   "end_ms": 1242170,
+   "hits": []
+  },
+  {
+   "start_ms": 1245330,
+   "end_ms": 1254179,
+   "hits": []
+  },
+  {
+   "start_ms": 1262043,
+   "end_ms": 1280641,
+   "hits": []
+  },
+  {
+   "start_ms": 1293495,
+   "end_ms": 1303197,
+   "hits": []
+  },
+  {
+   "start_ms": 1346085,
+   "end_ms": 1355995,
+   "hits": []
+  },
+  {
+   "start_ms": 1363895,
+   "end_ms": 1372172,
+   "hits": []
+  },
+  {
+   "start_ms": 1409355,
+   "end_ms": 1421615,
+   "hits": []
+  },
+  {
+   "start_ms": 1437330,
+   "end_ms": 1446750,
+   "hits": []
+  },
+  {
+   "start_ms": 1463695,
+   "end_ms": 1468684,
+   "hits": []
+  },
+  {
+   "start_ms": 1476574,
+   "end_ms": 1487215,
+   "hits": []
+  },
+  {
+   "start_ms": 1530062,
+   "end_ms": 1537063,
+   "hits": []
+  },
+  {
+   "start_ms": 1549085,
+   "end_ms": 1568658,
+   "hits": []
+  }
+ ]
+}

@@ -22,4 +22,4 @@ def test_detect_finds_synthetic_rally(tmp_path):
     rs = detect(path, video="a.mp4")
     assert len(rs.rallies) == 1
     r = rs.rallies[0]
-    assert abs(r.start_ms - 9700) < 100 and abs(r.end_ms - 18700) < 1200
+    assert abs(r.start_ms - 9700) < 100 and abs(r.end_ms - 19700) < 1200
