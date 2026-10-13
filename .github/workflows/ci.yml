@@ -24,3 +24,20 @@ jobs:
         run: ruff check .
       - name: Tests
         run: pytest -q
+
+  score:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Installer
+        run: npm ci
+      - name: Types
+        run: npm run typecheck
+      - name: Tests
+        run: npm test
+      - name: Démo de l'overlay
+        run: npm run build:demo

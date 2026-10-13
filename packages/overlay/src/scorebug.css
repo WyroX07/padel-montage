@@ -1,0 +1,247 @@
+/*
+ * Overlay de score. Tout est en em : la taille suit --pm-size, pour rester net
+ * de l'aperçu 540p jusqu'à l'export 4K.
+ * Concept : le panneau d'affichage d'un club, une colonne de points couleur balle.
+ */
+.pm-bug {
+  --pm-ink: #f3f6fa;
+  --pm-muted: rgba(243, 246, 250, 0.58);
+  --pm-panel: rgba(8, 18, 34, 0.88);
+  --pm-cell: rgba(255, 255, 255, 0.055);
+  --pm-rule: rgba(255, 255, 255, 0.09);
+  --pm-accent: #d9f04a;
+  --pm-accent-ink: #0a1526;
+  --pm-shadow: 0 0.5em 1.4em rgba(3, 8, 18, 0.35);
+  --pm-ease: cubic-bezier(0.23, 1, 0.32, 1);
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.18em;
+  font-family: "Saira Condensed", "Roboto Condensed", "Arial Narrow", sans-serif;
+  font-size: var(--pm-size, 28px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--pm-ink);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+.pm-bug[data-variant="verre"] {
+  --pm-ink: #0a1526;
+  --pm-muted: rgba(10, 21, 38, 0.52);
+  --pm-panel: rgba(238, 244, 250, 0.8);
+  --pm-cell: rgba(10, 21, 38, 0.05);
+  --pm-rule: rgba(10, 21, 38, 0.09);
+  --pm-accent: #1d4fd8;
+  --pm-accent-ink: #f3f6fa;
+  --pm-shadow: 0 0.5em 1.4em rgba(3, 8, 18, 0.18);
+}
+
+.pm-table {
+  display: grid;
+  grid-auto-rows: 1.5em;
+  background: var(--pm-panel);
+  border-radius: 0.22em;
+  overflow: hidden;
+  box-shadow: var(--pm-shadow);
+  -webkit-backdrop-filter: blur(0.5em) saturate(1.2);
+  backdrop-filter: blur(0.5em) saturate(1.2);
+}
+
+.pm-row {
+  display: contents;
+}
+
+.pm-row > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 240ms ease;
+}
+
+.pm-row[data-team="A"] > * {
+  border-bottom: 1px solid var(--pm-rule);
+}
+
+.pm-row[data-lost] > * {
+  opacity: 0.45;
+}
+
+/* Service : une balle à côté de l'équipe qui sert. */
+.pm-serve {
+  padding-left: 0.3em;
+}
+
+.pm-ball {
+  width: 0.5em;
+  height: 0.5em;
+  fill: var(--pm-accent);
+  stroke: var(--pm-accent-ink);
+  stroke-width: 1.4;
+  stroke-opacity: 0.35;
+  animation: pm-pop 260ms var(--pm-ease);
+}
+
+.pm-ball circle {
+  stroke: none;
+}
+
+.pm-name {
+  justify-content: flex-start;
+  gap: 0.28em;
+  padding: 0 0.65em 0 0.2em;
+  font-weight: 600;
+  font-size: 0.82em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pm-player + .pm-player::before {
+  content: "/";
+  margin-right: 0.28em;
+  color: var(--pm-muted);
+  font-weight: 400;
+}
+
+/* Le joueur au service est en plein, son partenaire un ton en dessous. */
+.pm-player {
+  color: var(--pm-muted);
+  transition: color 240ms ease;
+}
+
+.pm-player[data-serving],
+.pm-row:not(:has([data-serving])) .pm-player {
+  color: var(--pm-ink);
+}
+
+.pm-set {
+  position: relative;
+  font-weight: 500;
+  font-size: 0.86em;
+  color: var(--pm-muted);
+  background: var(--pm-cell);
+  border-left: 1px solid var(--pm-rule);
+}
+
+.pm-set[data-won] {
+  color: var(--pm-ink);
+  font-weight: 700;
+}
+
+.pm-set sup {
+  position: absolute;
+  top: 0.25em;
+  right: 0.12em;
+  font-size: 0.5em;
+  font-weight: 600;
+}
+
+.pm-games {
+  font-weight: 700;
+  font-size: 0.92em;
+  border-left: 1px solid var(--pm-rule);
+}
+
+/* Colonne des points : la seule surface colorée. */
+.pm-points {
+  background: var(--pm-accent);
+  color: var(--pm-accent-ink);
+  font-weight: 800;
+  font-size: 1em;
+}
+
+.pm-row[data-team="A"] > .pm-points {
+  border-bottom-color: color-mix(in srgb, var(--pm-accent-ink) 14%, transparent);
+}
+
+.pm-points[data-adv] {
+  font-size: 0.78em;
+  letter-spacing: 0.06em;
+}
+
+.pm-roll {
+  display: inline-grid;
+  overflow: hidden;
+  height: 1.2em;
+  align-items: center;
+}
+
+.pm-roll-in {
+  animation: pm-roll 280ms var(--pm-ease);
+}
+
+/* Bandeau sous le score : balle de break, punto de oro, tie-break… */
+.pm-tags {
+  display: flex;
+  gap: 0.18em;
+  animation: pm-reveal 320ms var(--pm-ease);
+}
+
+.pm-tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  padding: 0.3em 0.55em 0.28em;
+  border-radius: 0.18em;
+  font-size: 0.6em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--pm-panel);
+  color: var(--pm-ink);
+  box-shadow: var(--pm-shadow);
+}
+
+.pm-tag[data-tone="accent"] {
+  background: var(--pm-accent);
+  color: var(--pm-accent-ink);
+}
+
+.pm-tag-team {
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  opacity: 0.72;
+}
+
+@keyframes pm-roll {
+  from {
+    transform: translateY(60%);
+    opacity: 0;
+  }
+}
+
+@keyframes pm-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-0.3em);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes pm-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-roll-in,
+  .pm-ball {
+    animation: pm-fade 200ms ease;
+  }
+  .pm-tags {
+    animation: pm-fade 200ms ease;
+  }
+}
+
+@keyframes pm-fade {
+  from {
+    opacity: 0;
+  }
+}

@@ -13,6 +13,8 @@ Plan et architecture : doc du projet « Logiciel de montage padel : architecture
 | `eval/` | Vérité terrain (`annotations/`) et prédictions (`predictions/`), jamais de vidéo | 0 |
 | `research/` | Essais datés : scripts et notes de mesure, gardés même quand ils échouent | 1 et 2 |
 | `docs/` | Décisions d'architecture | |
+| `packages/score/` | Règles du score padel (TypeScript pur) : points, jeux, sets, tie-break, service | 4 |
+| `packages/overlay/` | Overlay de score React et sa page de démo | 4 |
 | `app/` | Application desktop Tauri + React | 3 et 4 |
 
 ## Boucle de travail sur un rush
@@ -33,6 +35,8 @@ cd engine && ruff check . && pytest -q
 ```
 
 Prérequis : Python 3.12, FFmpeg dans le PATH.
+
+Score et overlay : `npm install && npm test` (Node 22).
 
 ## Où on en est
 
