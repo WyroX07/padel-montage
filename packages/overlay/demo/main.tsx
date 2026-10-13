@@ -285,8 +285,8 @@ function App() {
             value={format}
             onChange={setFormat}
             options={[
-              { value: "super-tb", label: "2 sets + super tie-break" },
-              { value: "3-sets", label: "2 sets gagnants" },
+              { value: "super-tb", label: "2 sets + STB" },
+              { value: "3-sets", label: "3 sets" },
               { value: "1-set", label: "1 set" },
             ]}
           />
