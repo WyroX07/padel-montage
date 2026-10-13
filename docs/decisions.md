@@ -11,4 +11,4 @@
 | 2026-10-13 | v0 (son seul) gardé comme référence ; v2 = image avec détecteur de joueurs pré-entraîné | Le son entend 96 % des points mais ne sait pas les séparer (voir `research/`) |
 | 2026-10-13 | Règles du score en TypeScript (`packages/score`), état rejoué depuis la liste des points | L'éditeur et l'overlay sont en React ; le score ne change qu'entre deux points, donc l'export incruste une image par état sans que Python connaisse les règles |
 | 2026-10-13 | À 40-40 : avantages sans limite par défaut, punto de oro et star point au choix | Habitude du groupe de Maxence, choix laissé à l'utilisateur |
-| 2026-10-13 | Format par défaut : 2 sets gagnants, super tie-break à 10 à 1-1 | Format joué par le groupe de Maxence ; 3e set complet et 1 set restent au choix |
+| 2026-10-13 | Format : 2 sets, à 1-1 super tie-break à 10 (défaut) ou tie-break à 7 | Ce que joue le groupe de Maxence, et certains tournois ; 1 set reste possible |

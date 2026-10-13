@@ -12,7 +12,8 @@ import { createRoot } from "react-dom/client";
 import { Scorebug, type ScorebugVariant } from "../src";
 import "./demo.css";
 
-type Format = "3-sets" | "super-tb" | "1-set";
+type Format = "2-sets" | "1-set";
+type Decider = "super-tiebreak" | "tiebreak";
 
 const TEAMS: MatchConfig["teams"] = {
   A: { players: ["Lucas Martin", "Hugo Roux"] },
@@ -40,16 +41,13 @@ const SCENARIOS: Array<{ label: string; deuce?: DeuceRule; format?: Format; even
   { label: "Tie-break", events: p((g("A") + g("B")).repeat(6) + "ABBAB") },
   {
     label: "Super tie-break",
-    format: "super-tb",
     events: p(g("A", 6) + (g("A") + g("B")).repeat(6) + "BBBBBBB" + "ABABAAAABBBAB"),
   },
   { label: "Balle de match", events: p(g("A", 6) + (g("A") + g("B")).repeat(4) + g("A") + "AAA") },
 ];
 
 function formatConfig(format: Format): Partial<MatchConfig> {
-  if (format === "1-set") return { bestOf: 1, finalSet: "full" };
-  if (format === "super-tb") return { bestOf: 3, finalSet: "super-tiebreak" };
-  return { bestOf: 3, finalSet: "full" };
+  return { bestOf: format === "1-set" ? 1 : 3 };
 }
 
 /** Fond de démonstration : un court vu depuis l'arrière de la vitre, comme le rush de test. */
@@ -186,14 +184,15 @@ function Segmented<T extends string>(props: {
 
 function App() {
   const [deuceRule, setDeuceRule] = useState<DeuceRule>("advantage");
-  const [format, setFormat] = useState<Format>("super-tb");
+  const [format, setFormat] = useState<Format>("2-sets");
+  const [decider, setDecider] = useState<Decider>("super-tiebreak");
   const [variant, setVariant] = useState<ScorebugVariant>("nuit");
   const [accent, setAccent] = useState(ACCENTS[0]!.value);
   const [events, setEvents] = useState<ScoreEvent[]>(SCENARIOS[0]!.events);
 
   const config: MatchConfig = useMemo(
-    () => ({ ...DEFAULT_CONFIG, ...formatConfig(format), teams: TEAMS, deuceRule }),
-    [deuceRule, format],
+    () => ({ ...DEFAULT_CONFIG, ...formatConfig(format), finalSet: decider, teams: TEAMS, deuceRule }),
+    [deuceRule, format, decider],
   );
   const snaps = useMemo(() => replay(config, events), [config, events]);
   const current = snaps.at(-1)!;
@@ -285,9 +284,18 @@ function App() {
             value={format}
             onChange={setFormat}
             options={[
-              { value: "super-tb", label: "2 sets + STB" },
-              { value: "3-sets", label: "3 sets" },
+              { value: "2-sets", label: "2 sets" },
               { value: "1-set", label: "1 set" },
+            ]}
+          />
+          <Segmented
+            id="decider"
+            label="À 1 set partout"
+            value={decider}
+            onChange={setDecider}
+            options={[
+              { value: "super-tiebreak", label: "Super tie-break (10)" },
+              { value: "tiebreak", label: "Tie-break (7)" },
             ]}
           />
           <Segmented
@@ -330,7 +338,8 @@ function App() {
                 className="chip"
                 onClick={() => {
                   setDeuceRule(s.deuce ?? "advantage");
-                  setFormat(s.format ?? "super-tb");
+                  setFormat(s.format ?? "2-sets");
+                  setDecider("super-tiebreak");
                   setEvents(s.events);
                 }}
               >

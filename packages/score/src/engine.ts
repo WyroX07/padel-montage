@@ -35,9 +35,13 @@ const setsToWin = (config: MatchConfig): number => Math.floor(config.bestOf / 2)
 const setsWon = (sets: SetScore[], team: Team): number =>
   sets.filter((s) => s[team] > s[other(team)]).length;
 
-/** Le set qui commence est-il le set décisif joué en super tie-break ? */
-function isSuperTiebreakSet(config: MatchConfig, sets: SetScore[]): boolean {
-  if (config.finalSet !== "super-tiebreak" || config.bestOf === 1) return false;
+/** Points pour gagner le tie-break décisif qui remplace le dernier set. */
+export const matchTiebreakPoints = (config: MatchConfig): number =>
+  config.finalSet === "tiebreak" ? config.tiebreakPoints : config.superTiebreakPoints;
+
+/** Le set qui commence est-il le set décisif, joué en tie-break ? */
+function isMatchTiebreakSet(config: MatchConfig, sets: SetScore[]): boolean {
+  if (config.finalSet === "full" || config.bestOf === 1) return false;
   const need = setsToWin(config) - 1;
   return setsWon(sets, "A") === need && setsWon(sets, "B") === need;
 }
@@ -70,8 +74,8 @@ export function initialState(config: MatchConfig): MatchState {
   if (won) {
     state.phase = "finished";
     state.winner = won;
-  } else if (isSuperTiebreakSet(config, sets)) {
-    startTiebreak(state, "super-tiebreak");
+  } else if (isMatchTiebreakSet(config, sets)) {
+    startTiebreak(state, "match-tiebreak");
   } else if (config.tiebreak && gA === config.gamesPerSet && gB === config.gamesPerSet) {
     startTiebreak(state, "tiebreak");
   }
@@ -112,8 +116,8 @@ function closeSet(state: MatchState, config: MatchConfig, set: SetScore, outcome
     state.phase = "finished";
     state.winner = won;
     outcome.match = won;
-  } else if (isSuperTiebreakSet(config, state.sets)) {
-    startTiebreak(state, "super-tiebreak");
+  } else if (isMatchTiebreakSet(config, state.sets)) {
+    startTiebreak(state, "match-tiebreak");
   } else {
     state.phase = "game";
   }
@@ -154,13 +158,13 @@ function pointInGame(state: MatchState, config: MatchConfig, team: Team, outcome
 }
 
 function pointInTiebreak(state: MatchState, config: MatchConfig, team: Team, outcome: Outcome): void {
-  const target = state.phase === "super-tiebreak" ? config.superTiebreakPoints : config.tiebreakPoints;
+  const target = state.phase === "match-tiebreak" ? matchTiebreakPoints(config) : config.tiebreakPoints;
   const next: GameScore = { ...state.points, [team]: state.points[team] + 1 };
   if (next[team] >= target && next[team] - next[other(team)] >= 2) {
     const tiebreak = { A: next.A, B: next.B };
     const set: SetScore =
-      state.phase === "super-tiebreak"
-        ? { A: team === "A" ? 1 : 0, B: team === "B" ? 1 : 0, tiebreak, superTiebreak: true }
+      state.phase === "match-tiebreak"
+        ? { A: team === "A" ? 1 : 0, B: team === "B" ? 1 : 0, tiebreak, matchTiebreak: true }
         : {
             A: state.games.A + (team === "A" ? 1 : 0),
             B: state.games.B + (team === "B" ? 1 : 0),
@@ -196,7 +200,7 @@ export function applyEvent(
   const outcome: Outcome = {};
   if (event.kind === "server") {
     withServer(next, event.server);
-    if (next.phase === "tiebreak" || next.phase === "super-tiebreak") {
+    if (next.phase === "tiebreak" || next.phase === "match-tiebreak") {
       if (next.points.A + next.points.B === 0) next.tiebreakFirstServer = event.server.team;
     }
     return { state: next, outcome };

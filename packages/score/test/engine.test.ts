@@ -110,7 +110,7 @@ describe("jeux et sets", () => {
   it("super tie-break à 10 au lieu du 3e set", () => {
     const c = cfg({ finalSet: "super-tiebreak" });
     const oneAll = games("A", 6) + games("B", 6);
-    expect(last(c, oneAll).state.phase).toBe("super-tiebreak");
+    expect(last(c, oneAll).state.phase).toBe("match-tiebreak");
     expect(line(c, oneAll + "AAAAAAAAAB")).toBe("6-0 0-6 STB 9-1");
     const end = last(c, oneAll + "AAAAAAAAAA");
     expect(end.state.winner).toBe("A");
@@ -118,8 +118,17 @@ describe("jeux et sets", () => {
   });
 
   it("par défaut : 2 sets gagnants, super tie-break à une manche partout", () => {
-    expect(last(cfg(), games("A", 6) + games("B", 6)).state.phase).toBe("super-tiebreak");
+    expect(last(cfg(), games("A", 6) + games("B", 6)).state.phase).toBe("match-tiebreak");
     expect(last(cfg({ finalSet: "full" }), games("A", 6) + games("B", 6)).state.phase).toBe("game");
+  });
+
+  it("tie-break à 7 à la place du 3e set (certains tournois)", () => {
+    const c = cfg({ finalSet: "tiebreak" });
+    const oneAll = games("A", 6) + games("B", 6);
+    expect(line(c, oneAll + "AAAAAB")).toBe("6-0 0-6 TB 5-1");
+    const end = last(c, oneAll + "AAAAAAA");
+    expect(end.state.winner).toBe("A");
+    expect(scoreLine(c, end.state)).toBe("6-0 0-6 [7-0]");
   });
 
   it("un seul set", () => {

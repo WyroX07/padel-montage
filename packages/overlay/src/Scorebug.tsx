@@ -39,7 +39,9 @@ function chipsFor(config: MatchConfig, v: ReturnType<typeof view>, outcome?: Out
   const chips: Chip[] = [];
   if (outcome?.set) chips.push({ text: "Set", team: outcome.set, tone: "accent" });
   if (v.phase === "tiebreak") chips.push({ text: "Tie-break", tone: "plain" });
-  if (v.phase === "super-tiebreak") chips.push({ text: "Super tie-break", tone: "plain" });
+  if (v.phase === "match-tiebreak") {
+    chips.push({ text: config.finalSet === "super-tiebreak" ? "Super tie-break" : "Tie-break décisif", tone: "plain" });
+  }
   if (v.decidingPoint) {
     chips.push({ text: v.decidingPoint === "golden-point" ? "Punto de oro" : "Star point", tone: "plain" });
   }
@@ -81,7 +83,7 @@ export function Scorebug({
 }: ScorebugProps) {
   const v = view(config, state);
   const finished = v.phase === "finished";
-  const showGames = v.phase !== "super-tiebreak" && !finished;
+  const showGames = v.phase !== "match-tiebreak" && !finished;
   const showPoints = !finished;
   const chips = chipsFor(config, v, outcome);
 
@@ -131,8 +133,8 @@ export function Scorebug({
               </span>
               {v.sets.map((s, i) => (
                 <span key={i} className="pm-set" data-won={s[team] > s[team === "A" ? "B" : "A"] || undefined}>
-                  {s.superTiebreak && s.tiebreak ? s.tiebreak[team] : s[team]}
-                  {s.tiebreak && !s.superTiebreak && s[team] < s[team === "A" ? "B" : "A"] && (
+                  {s.matchTiebreak && s.tiebreak ? s.tiebreak[team] : s[team]}
+                  {s.tiebreak && !s.matchTiebreak && s[team] < s[team === "A" ? "B" : "A"] && (
                     <sup>{s.tiebreak[team]}</sup>
                   )}
                 </span>

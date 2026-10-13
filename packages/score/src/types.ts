@@ -33,10 +33,10 @@ export interface MatchConfig {
   tiebreak: boolean;
   tiebreakPoints: number;
   /**
-   * À une manche partout : 3e set complet (`full`), ou super tie-break à 10 (`super-tiebreak`, défaut,
-   * le format le plus joué en loisir).
+   * À une manche partout : super tie-break à 10 (`super-tiebreak`, défaut), tie-break à 7
+   * (`tiebreak`, certains tournois) ou 3e set complet (`full`).
    */
-  finalSet: "full" | "super-tiebreak";
+  finalSet: "super-tiebreak" | "tiebreak" | "full";
   superTiebreakPoints: number;
   firstServer: Server;
   /** Pour un rush qui commence en cours de match. */
@@ -76,9 +76,10 @@ export type ScoreEvent =
 export interface SetScore {
   A: number;
   B: number;
-  /** Points du tie-break ou du super tie-break qui a décidé le set. */
+  /** Points du tie-break qui a décidé le set (ou le match). */
   tiebreak?: { A: number; B: number };
-  superTiebreak?: boolean;
+  /** Set décisif remplacé par un tie-break (super ou à 7) : seul `tiebreak` compte. */
+  matchTiebreak?: boolean;
 }
 
 export interface GameScore {
@@ -88,7 +89,7 @@ export interface GameScore {
   deuces: number;
 }
 
-export type Phase = "game" | "tiebreak" | "super-tiebreak" | "finished";
+export type Phase = "game" | "tiebreak" | "match-tiebreak" | "finished";
 
 export interface MatchState {
   /** Sets terminés. */

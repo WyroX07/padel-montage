@@ -12,7 +12,7 @@ export interface ScoreView {
   /** Jeux du set en cours. */
   games: Record<Team, number>;
   /** Sets terminés (avec le score du tie-break en petit s'il y en a eu). */
-  sets: Array<{ A: number; B: number; tiebreak?: { A: number; B: number }; superTiebreak?: boolean }>;
+  sets: Array<{ A: number; B: number; tiebreak?: { A: number; B: number }; matchTiebreak?: boolean }>;
   phase: MatchState["phase"];
   serving: MatchState["server"];
   /** 40-40 avec avantages. */
@@ -80,13 +80,13 @@ export function view(config: MatchConfig, state: MatchState): ScoreView {
 export function scoreLine(config: MatchConfig, state: MatchState): string {
   const v = view(config, state);
   const sets = v.sets.map((s) =>
-    s.superTiebreak && s.tiebreak ? `[${s.tiebreak.A}-${s.tiebreak.B}]` : `${s.A}-${s.B}`,
+    s.matchTiebreak && s.tiebreak ? `[${s.tiebreak.A}-${s.tiebreak.B}]` : `${s.A}-${s.B}`,
   );
   if (v.phase === "finished") return sets.join(" ");
-  const current = v.phase === "super-tiebreak" ? [] : [`${v.games.A}-${v.games.B}`];
+  const current = v.phase === "match-tiebreak" ? [] : [`${v.games.A}-${v.games.B}`];
   const pts =
     v.phase === "game"
       ? `${v.points.A || "-"}-${v.points.B || "-"}`
-      : `${v.phase === "super-tiebreak" ? "STB" : "TB"} ${v.points.A}-${v.points.B}`;
+      : `${v.phase === "match-tiebreak" && config.finalSet === "super-tiebreak" ? "STB" : "TB"} ${v.points.A}-${v.points.B}`;
   return [...sets, ...current, pts].join(" ");
 }
