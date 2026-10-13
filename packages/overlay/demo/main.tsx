@@ -12,7 +12,7 @@ import { createRoot } from "react-dom/client";
 import { Scorebug, type ScorebugVariant } from "../src";
 import "./demo.css";
 
-type Format = "2-sets" | "1-set";
+type Format = "2-sets" | "3-sets" | "1-set";
 type Decider = "super-tiebreak" | "tiebreak";
 
 const TEAMS: MatchConfig["teams"] = {
@@ -46,8 +46,9 @@ const SCENARIOS: Array<{ label: string; deuce?: DeuceRule; format?: Format; even
   { label: "Balle de match", events: p(g("A", 6) + (g("A") + g("B")).repeat(4) + g("A") + "AAA") },
 ];
 
-function formatConfig(format: Format): Partial<MatchConfig> {
-  return { bestOf: format === "1-set" ? 1 : 3 };
+function formatConfig(format: Format, decider: Decider): Partial<MatchConfig> {
+  if (format === "1-set") return { bestOf: 1 };
+  return { bestOf: 3, finalSet: format === "3-sets" ? "full" : decider };
 }
 
 /** Fond de démonstration : un court vu depuis l'arrière de la vitre, comme le rush de test. */
@@ -160,9 +161,10 @@ function Segmented<T extends string>(props: {
   value: T;
   options: Array<{ value: T; label: string }>;
   onChange: (v: T) => void;
+  disabled?: boolean;
 }) {
   return (
-    <fieldset className="field">
+    <fieldset className="field" disabled={props.disabled}>
       <legend>{props.label}</legend>
       <div className="segmented" role="radiogroup">
         {props.options.map((o) => (
@@ -191,7 +193,7 @@ function App() {
   const [events, setEvents] = useState<ScoreEvent[]>(SCENARIOS[0]!.events);
 
   const config: MatchConfig = useMemo(
-    () => ({ ...DEFAULT_CONFIG, ...formatConfig(format), finalSet: decider, teams: TEAMS, deuceRule }),
+    () => ({ ...DEFAULT_CONFIG, ...formatConfig(format, decider), teams: TEAMS, deuceRule }),
     [deuceRule, format, decider],
   );
   const snaps = useMemo(() => replay(config, events), [config, events]);
@@ -285,12 +287,14 @@ function App() {
             onChange={setFormat}
             options={[
               { value: "2-sets", label: "2 sets" },
+              { value: "3-sets", label: "3 sets" },
               { value: "1-set", label: "1 set" },
             ]}
           />
           <Segmented
             id="decider"
             label="À 1 set partout"
+            disabled={format !== "2-sets"}
             value={decider}
             onChange={setDecider}
             options={[
