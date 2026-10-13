@@ -23,6 +23,7 @@ class Rally:
     hits: list[int] = field(default_factory=list)
     serve_ms: int | None = None
     confidence: float | None = None
+    keep: bool = True  # False : vrai point jugé sans intérêt pour le montage
 
     def __post_init__(self) -> None:
         if self.start_ms >= self.end_ms:
@@ -44,6 +45,8 @@ class Rally:
             d["serve_ms"] = self.serve_ms
         if self.confidence is not None:
             d["confidence"] = self.confidence
+        if not self.keep:
+            d["keep"] = False
         return d
 
     @classmethod
@@ -54,6 +57,7 @@ class Rally:
             hits=[int(h) for h in d.get("hits", [])],
             serve_ms=None if d.get("serve_ms") is None else int(d["serve_ms"]),
             confidence=None if d.get("confidence") is None else float(d["confidence"]),
+            keep=d.get("keep", True) is not False,
         )
 
 
