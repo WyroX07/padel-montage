@@ -88,7 +88,17 @@ def _describe(r: Rally) -> dict:
     }
 
 
+def _crop(pred: RallySet, until_ms: int) -> RallySet:
+    """Ne garde que les prédictions qui commencent dans la zone vérifiée."""
+    kept = [r for r in pred.rallies if r.start_ms < until_ms]
+    return RallySet(pred.video, pred.camera, pred.duration_ms, kept, pred.source)
+
+
 def evaluate(gt: RallySet, pred: RallySet, iou: float = 0.5, collar_ms: int = 250) -> dict:
+    """Si la vérité terrain n'est vérifiée que jusqu'à ``reviewed_until_ms``, les
+    prédictions au-delà sont ignorées."""
+    if gt.reviewed_until_ms is not None:
+        pred = _crop(pred, gt.reviewed_until_ms)
     matches = match_rallies(gt.rallies, pred.rallies, iou)
     matched_g = {i for i, _, _ in matches}
     matched_p = {j for _, j, _ in matches}

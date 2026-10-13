@@ -92,3 +92,10 @@ def test_aggregate():
 def test_fmt_time():
     assert fmt_time(75300) == "01:15.3"
     assert fmt_time(0) == "00:00.0"
+
+
+def test_reviewed_until_crops_predictions():
+    gt = RallySet("v", "autre", None, [Rally(1000, 5000)], "ground_truth", reviewed_until_ms=10_000)
+    pred = RallySet("v", "autre", None, [Rally(1000, 5000), Rally(20_000, 25_000)], "prediction")
+    r = evaluate(gt, pred)
+    assert r["tp"] == 1 and r["fp"] == 0 and r["fn"] == 0

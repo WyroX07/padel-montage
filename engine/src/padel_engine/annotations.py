@@ -64,6 +64,7 @@ class RallySet:
     duration_ms: int | None
     rallies: list[Rally]
     source: str
+    reviewed_until_ms: int | None = None
 
     def __post_init__(self) -> None:
         if self.camera not in CAMERAS:
@@ -87,6 +88,11 @@ class RallySet:
             "duration_ms": self.duration_ms,
             "source": self.source,
             "rallies": [r.to_dict() for r in self.rallies],
+            **(
+                {"reviewed_until_ms": self.reviewed_until_ms}
+                if self.reviewed_until_ms is not None
+                else {}
+            ),
         }
 
     @classmethod
@@ -100,6 +106,9 @@ class RallySet:
             duration_ms=None if dur is None else int(dur),
             rallies=[Rally.from_dict(r) for r in d.get("rallies", [])],
             source=d["source"],
+            reviewed_until_ms=None
+            if d.get("reviewed_until_ms") is None
+            else int(d["reviewed_until_ms"]),
         )
 
     def save(self, path: str | Path) -> None:
