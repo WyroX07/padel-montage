@@ -24,3 +24,26 @@ Suite : vérité terrain propre (touche K), autres angles, détecteur de personn
 - Points ratés : 9 fusionnés avec un voisin, 6 coupés en plusieurs, 5 bornes décalées, 2 non vus.
 - 29 faux positifs hors de tout point, avec 4 à 9 « frappes » chacun : bruits entre les points
   (rebonds avant le service, balles renvoyées au serveur, terrains voisins). Il faut l'image pour les écarter.
+
+## Classifieur par frappe (son seul), entraîné sur 0-26:08, testé sur 26:08-50:12
+
+Chaque frappe candidate est décrite par son timbre (énergie par bande, centroïde, décroissance)
+et son contexte (densité de frappes, intervalles, régularité). Cible : frappe dans un point ou non.
+
+- AUC sur la partie test : 0,62 (0,57 avec la seule force de l'attaque). Ajouter la stéréo
+  (différence de niveau et décalage gauche/droite) ne change rien (0,62).
+- Points reconstruits : rappel 54-56 %, précision 29-31 %, soit pas mieux que le v0.
+
+Conclusion : le son seul ne distingue pas une frappe d'échange d'un rebond avant service ou
+d'une balle renvoyée au serveur sur ce rush. Le v0 reste la référence audio ; la suite passe par l'image.
+
+## Reproduire
+
+```bash
+padel-engine audio match.mp4 match24.wav --rate 24000
+padel-engine detect match24.wav --video match.MOV --camera trepied_vitre -o eval/predictions/match.json
+padel-engine eval --gt-dir eval/annotations --pred-dir eval/predictions --start 1568.658   # partie test
+```
+
+Les scripts de ce dossier sont des essais : ils lisent des fichiers intermédiaires (`hits8.npy`,
+`fg_feats.npy`…) produits dans un dossier de travail, pas dans le dépôt.

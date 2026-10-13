@@ -104,7 +104,12 @@ def _cmd_eval(args: argparse.Namespace) -> int:
     for g, p in _pair_inputs(args):
         results.append(
             evaluate.evaluate(
-                annotations.load(g), annotations.load(p), iou=args.iou, collar_ms=args.collar
+                annotations.load(g),
+                annotations.load(p),
+                iou=args.iou,
+                collar_ms=args.collar,
+                start_ms=None if args.start is None else round(args.start * 1000),
+                end_ms=None if args.end is None else round(args.end * 1000),
             )
         )
     if not results:
@@ -168,6 +173,8 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--pred-dir")
     s.add_argument("--iou", type=float, default=0.5)
     s.add_argument("--collar", type=int, default=250, help="tolérance des coups en ms")
+    s.add_argument("--start", type=float, help="début de la fenêtre évaluée (s)")
+    s.add_argument("--end", type=float, help="fin de la fenêtre évaluée (s)")
     s.add_argument("--json", action="store_true", help="sortie JSON")
     s.set_defaults(func=_cmd_eval)
 
@@ -188,6 +195,8 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         return args.func(args)
+    except BrokenPipeError:  # sortie coupée par `head`, etc.
+        return 0
     except (ingest.IngestError, annotations.AnnotationError, OSError) as e:
         print(f"Erreur : {e}", file=sys.stderr)
         return 1

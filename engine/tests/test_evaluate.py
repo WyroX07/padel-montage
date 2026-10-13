@@ -99,3 +99,10 @@ def test_reviewed_until_crops_predictions():
     pred = RallySet("v", "autre", None, [Rally(1000, 5000), Rally(20_000, 25_000)], "prediction")
     r = evaluate(gt, pred)
     assert r["tp"] == 1 and r["fp"] == 0 and r["fn"] == 0
+
+
+def test_window_restricts_both_sides():
+    g = gt(Rally(1000, 5000), Rally(20_000, 25_000))
+    p = rs("prediction", Rally(1000, 5000), Rally(40_000, 45_000))
+    r = evaluate(g, p, start_ms=10_000)
+    assert (r["tp"], r["fp"], r["fn"]) == (0, 1, 1)

@@ -6,3 +6,6 @@
 | 2026-10-13 | Audio des frappes comme déclencheur principal, confirmé par la vision | Approche la plus fiable publiée pour le padel (F1 92 %, Decorte et al. 2024) |
 | 2026-10-13 | Licences permissives uniquement (pas d'AGPL) | Vente possible à terme |
 | 2026-10-13 | Annotation de vérité terrain via les labels Audacity | Annoter à l'oreille est rapide et ne demande aucun outil à développer |
+| 2026-10-13 | Vérité terrain : Suppr = pas un point, K = vrai point sans intérêt (`keep: false`) | Mesurer la détection et le tri « intéressant » séparément |
+| 2026-10-13 | Réglage sur 0-26:08 du premier match, test sur 26:08-50:12 | Éviter de se tromper avec des réglages faits sur les mêmes données |
+| 2026-10-13 | v0 (son seul) gardé comme référence ; v2 = image avec détecteur de joueurs pré-entraîné | Le son entend 96 % des points mais ne sait pas les séparer (voir `research/`) |
