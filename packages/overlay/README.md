@@ -8,7 +8,22 @@ Composant React `<Scorebug>` : l'overlay de score affiché sur la vidéo, le mê
 - Bandeau : punto de oro, star point, balle de break, de set, de match, tie-break, set, jeu set et match.
 - Animations courtes (chiffres qui roulent, bandeau qui se dévoile), réduites si le système le demande.
 
-Polices : Saira Condensed (SIL OFL). L'application devra embarquer les fichiers de police pour un rendu identique hors ligne et à l'export.
+Police : Saira Condensed (SIL OFL), embarquée via `@fontsource/saira-condensed` : rien à charger en ligne, et les images d'export ont la même police.
+
+## Export
+
+```ts
+import { scoreBeforeEachPoint } from "@padel/score";
+import { overlayFrames, renderScorebugPng } from "@padel/overlay";
+
+const snaps = scoreBeforeEachPoint(config, winners); // snaps[i] = score avant le point i
+for (const frame of overlayFrames(config, snaps)) {
+  const png = await renderScorebugPng({ config, state: frame.snapshot.state, outcome: frame.snapshot.outcome, size: 28 });
+  // frame.indexes : les points (clips) qui affichent cette image
+}
+```
+
+`renderScorebugPng` tourne dans la webview (il faut un DOM) et rend un PNG transparent à la taille du bandeau, sans animation. `size` ≈ 2,6 % de la hauteur de la vidéo (28 en 1080p, 56 en 4K).
 
 ## Démo
 

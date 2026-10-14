@@ -224,6 +224,18 @@ export function replay(config: MatchConfig, events: readonly ScoreEvent[]): Snap
 }
 
 /**
+ * Score avant chaque point, à partir des seuls gagnants dans l'ordre du rush.
+ * `result[i]` est l'état avant le point `i` (avec ce qu'a gagné le point `i - 1`) ;
+ * le dernier élément est le score final. `result.length === winners.length + 1`.
+ */
+export function scoreBeforeEachPoint(config: MatchConfig, winners: readonly Team[]): Snapshot[] {
+  return replay(
+    config,
+    winners.map((winner) => ({ kind: "point", winner })),
+  );
+}
+
+/**
  * Instantané à afficher au temps `t` du rush : le dernier événement dont `at <= t`.
  * Les événements sans `at` comptent comme déjà joués. `snapshots` vient de `replay`.
  */

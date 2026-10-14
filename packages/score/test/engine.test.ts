@@ -6,6 +6,7 @@ import {
   createScoreFile,
   parseScoreFile,
   replay,
+  scoreBeforeEachPoint,
   scoreLine,
   snapshotAt,
   sortEvents,
@@ -226,6 +227,13 @@ describe("départ en cours de match", () => {
   it("reprend directement en tie-break", () => {
     const c = cfg({ start: { games: [6, 6] } });
     expect(last(c, "").state.phase).toBe("tiebreak");
+  });
+});
+
+describe("score avant chaque point", () => {
+  it("donne n + 1 états à partir des gagnants", () => {
+    const snaps = scoreBeforeEachPoint(cfg(), ["A", "B", "A"]);
+    expect(snaps.map((s) => scoreLine(cfg(), s.state))).toEqual(["0-0 0-0", "0-0 15-0", "0-0 15-15", "0-0 30-15"]);
   });
 });
 

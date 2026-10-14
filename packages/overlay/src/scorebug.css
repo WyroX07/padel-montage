@@ -245,3 +245,10 @@
     opacity: 0;
   }
 }
+
+/* Rendu d'export : état final directement, sans animation. */
+.pm-bug[data-static] *,
+.pm-bug[data-static] {
+  animation: none !important;
+  transition: none !important;
+}

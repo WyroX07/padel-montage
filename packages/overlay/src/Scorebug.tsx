@@ -1,5 +1,11 @@
 import { type MatchConfig, type MatchState, type Outcome, type Team, view } from "@padel/score";
 import type { CSSProperties } from "react";
+// Police embarquée (SIL OFL) : rendu identique hors ligne et dans les images d'export.
+import "@fontsource/saira-condensed/latin-400.css";
+import "@fontsource/saira-condensed/latin-500.css";
+import "@fontsource/saira-condensed/latin-600.css";
+import "@fontsource/saira-condensed/latin-700.css";
+import "@fontsource/saira-condensed/latin-800.css";
 import "./scorebug.css";
 
 export type ScorebugVariant = "nuit" | "verre";
@@ -19,6 +25,8 @@ export interface ScorebugProps {
    */
   size?: number | string;
   className?: string;
+  /** `false` coupe les animations : pour le rendu d'images à l'export. */
+  animate?: boolean;
 }
 
 interface Chip {
@@ -80,6 +88,7 @@ export function Scorebug({
   accent,
   size = 28,
   className,
+  animate = true,
 }: ScorebugProps) {
   const v = view(config, state);
   const finished = v.phase === "finished";
@@ -104,6 +113,7 @@ export function Scorebug({
     <div
       className={["pm-bug", className].filter(Boolean).join(" ")}
       data-variant={variant}
+      data-static={animate ? undefined : ""}
       style={style}
       role="group"
       aria-label="Score"
