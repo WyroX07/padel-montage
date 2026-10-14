@@ -23,6 +23,7 @@ class Rally:
     hits: list[int] = field(default_factory=list)
     serve_ms: int | None = None
     confidence: float | None = None
+    keep: bool = True  # False : vrai point jugé sans intérêt pour le montage
 
     def __post_init__(self) -> None:
         if self.start_ms >= self.end_ms:
@@ -44,6 +45,8 @@ class Rally:
             d["serve_ms"] = self.serve_ms
         if self.confidence is not None:
             d["confidence"] = self.confidence
+        if not self.keep:
+            d["keep"] = False
         return d
 
     @classmethod
@@ -54,6 +57,7 @@ class Rally:
             hits=[int(h) for h in d.get("hits", [])],
             serve_ms=None if d.get("serve_ms") is None else int(d["serve_ms"]),
             confidence=None if d.get("confidence") is None else float(d["confidence"]),
+            keep=d.get("keep", True) is not False,
         )
 
 
@@ -64,6 +68,7 @@ class RallySet:
     duration_ms: int | None
     rallies: list[Rally]
     source: str
+    reviewed_until_ms: int | None = None
 
     def __post_init__(self) -> None:
         if self.camera not in CAMERAS:
@@ -87,6 +92,11 @@ class RallySet:
             "duration_ms": self.duration_ms,
             "source": self.source,
             "rallies": [r.to_dict() for r in self.rallies],
+            **(
+                {"reviewed_until_ms": self.reviewed_until_ms}
+                if self.reviewed_until_ms is not None
+                else {}
+            ),
         }
 
     @classmethod
@@ -100,6 +110,9 @@ class RallySet:
             duration_ms=None if dur is None else int(dur),
             rallies=[Rally.from_dict(r) for r in d.get("rallies", [])],
             source=d["source"],
+            reviewed_until_ms=None
+            if d.get("reviewed_until_ms") is None
+            else int(d["reviewed_until_ms"]),
         )
 
     def save(self, path: str | Path) -> None:

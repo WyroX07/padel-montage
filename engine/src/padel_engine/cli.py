@@ -7,7 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-from . import annotations, evaluate, ingest
+from . import annotations, detect_audio, evaluate, ingest
 
 
 def _pair_inputs(args: argparse.Namespace) -> list[tuple[Path, Path]]:
@@ -104,7 +104,12 @@ def _cmd_eval(args: argparse.Namespace) -> int:
     for g, p in _pair_inputs(args):
         results.append(
             evaluate.evaluate(
-                annotations.load(g), annotations.load(p), iou=args.iou, collar_ms=args.collar
+                annotations.load(g),
+                annotations.load(p),
+                iou=args.iou,
+                collar_ms=args.collar,
+                start_ms=None if args.start is None else round(args.start * 1000),
+                end_ms=None if args.end is None else round(args.end * 1000),
             )
         )
     if not results:
@@ -119,6 +124,18 @@ def _cmd_eval(args: argparse.Namespace) -> int:
         print(f"== TOTAL ({agg['n_videos']} vidéos) ==")
         print(f"  Rallyes : {agg['n_gt']} réels, {agg['n_pred']} prédits")
         _print_body(agg)
+    return 0
+
+
+def _cmd_detect(args: argparse.Namespace) -> int:
+    params = detect_audio.AudioV0Params(
+        threshold=args.threshold, max_gap_s=args.max_gap, min_hits=args.min_hits
+    )
+    rs = detect_audio.detect(
+        args.wav, video=args.video, camera=args.camera, duration_ms=args.duration_ms, params=params
+    )
+    rs.save(args.output)
+    print(f"{len(rs.rallies)} points détectés, écrits dans {args.output}")
     return 0
 
 
@@ -156,8 +173,21 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--pred-dir")
     s.add_argument("--iou", type=float, default=0.5)
     s.add_argument("--collar", type=int, default=250, help="tolérance des coups en ms")
+    s.add_argument("--start", type=float, help="début de la fenêtre évaluée (s)")
+    s.add_argument("--end", type=float, help="fin de la fenêtre évaluée (s)")
     s.add_argument("--json", action="store_true", help="sortie JSON")
     s.set_defaults(func=_cmd_eval)
+
+    s = sub.add_parser("detect", help="détecteur v0 (audio seul) : WAV 24 kHz -> points")
+    s.add_argument("wav")
+    s.add_argument("--video", required=True)
+    s.add_argument("--camera", default="autre", choices=annotations.CAMERAS)
+    s.add_argument("--duration-ms", type=int)
+    s.add_argument("--threshold", type=float, default=12.0)
+    s.add_argument("--max-gap", type=float, default=2.5, help="écart max entre frappes (s)")
+    s.add_argument("--min-hits", type=int, default=4)
+    s.add_argument("-o", "--output", required=True)
+    s.set_defaults(func=_cmd_detect)
     return p
 
 
@@ -165,6 +195,8 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         return args.func(args)
+    except BrokenPipeError:  # sortie coupée par `head`, etc.
+        return 0
     except (ingest.IngestError, annotations.AnnotationError, OSError) as e:
         print(f"Erreur : {e}", file=sys.stderr)
         return 1

@@ -81,3 +81,11 @@ def test_audacity_overlap_rejected(tmp_path):
     p.write_text("0\t10\ta\n5\t15\tb\n")
     with pytest.raises(AnnotationError):
         from_audacity_labels(p, "m.mp4", "terrain")
+
+
+def test_keep_flag_round_trip():
+    from padel_engine.annotations import Rally
+
+    r = Rally.from_dict({"start_ms": 0, "end_ms": 1000, "hits": [], "keep": False})
+    assert r.keep is False and r.to_dict()["keep"] is False
+    assert "keep" not in Rally.from_dict({"start_ms": 0, "end_ms": 1000}).to_dict()

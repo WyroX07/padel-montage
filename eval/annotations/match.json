@@ -1,0 +1,658 @@
+{
+ "format": "padel-rallies/v1",
+ "video": "match.MOV",
+ "camera": "trepied_vitre",
+ "duration_ms": 3145564,
+ "source": "ground_truth",
+ "reviewed_until_ms": 3012569,
+ "rallies": [
+  {
+   "start_ms": 180420,
+   "end_ms": 184730,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 194340,
+   "end_ms": 201587,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 215460,
+   "end_ms": 221865,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 233780,
+   "end_ms": 243005,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 261020,
+   "end_ms": 267635,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 273285,
+   "end_ms": 283745,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 285730,
+   "end_ms": 296419,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 300875,
+   "end_ms": 309915,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 322376,
+   "end_ms": 343305,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 348724,
+   "end_ms": 373032,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 379265,
+   "end_ms": 390095,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 399675,
+   "end_ms": 410968,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 417430,
+   "end_ms": 425085,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 441730,
+   "end_ms": 450990,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 452835,
+   "end_ms": 462065,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 465850,
+   "end_ms": 475535,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 484245,
+   "end_ms": 500340,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 505975,
+   "end_ms": 513307,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 533219,
+   "end_ms": 540114,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 553170,
+   "end_ms": 560085,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 565667,
+   "end_ms": 572067,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 584785,
+   "end_ms": 592588,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 616465,
+   "end_ms": 624587,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 643639,
+   "end_ms": 650490,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 660427,
+   "end_ms": 672437,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 681676,
+   "end_ms": 685235,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 692774,
+   "end_ms": 706328,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 727093,
+   "end_ms": 736720,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 746875,
+   "end_ms": 760707,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 776525,
+   "end_ms": 781525,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 799744,
+   "end_ms": 804914,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 816505,
+   "end_ms": 823330,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 833189,
+   "end_ms": 844156,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 861663,
+   "end_ms": 868068,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 871350,
+   "end_ms": 877346,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 892835,
+   "end_ms": 909500,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 913155,
+   "end_ms": 920143,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 921385,
+   "end_ms": 935810,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 947575,
+   "end_ms": 959879,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 971576,
+   "end_ms": 977907,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 999324,
+   "end_ms": 1010115,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1015712,
+   "end_ms": 1024515,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1032930,
+   "end_ms": 1041644,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1048815,
+   "end_ms": 1055851,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1072235,
+   "end_ms": 1083175,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1182440,
+   "end_ms": 1200389,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1236936,
+   "end_ms": 1242170,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1245330,
+   "end_ms": 1254179,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1262043,
+   "end_ms": 1280641,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1293495,
+   "end_ms": 1303197,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1346085,
+   "end_ms": 1355995,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1363895,
+   "end_ms": 1372172,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1409355,
+   "end_ms": 1421615,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1437330,
+   "end_ms": 1446750,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1463695,
+   "end_ms": 1468684,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1476574,
+   "end_ms": 1487215,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1530062,
+   "end_ms": 1537063,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1549085,
+   "end_ms": 1568658,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1577000,
+   "end_ms": 1585042,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1644445,
+   "end_ms": 1653164,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1659875,
+   "end_ms": 1669557,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1683755,
+   "end_ms": 1689148,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1696736,
+   "end_ms": 1705713,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1712535,
+   "end_ms": 1730935,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1748975,
+   "end_ms": 1765853,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1779055,
+   "end_ms": 1787228,
+   "hits": [],
+   "keep": false
+  },
+  {
+   "start_ms": 1795365,
+   "end_ms": 1814167,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1832604,
+   "end_ms": 1838714,
+   "hits": [],
+   "keep": false
+  },
+  {
+   "start_ms": 1847809,
+   "end_ms": 1871437,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1881210,
+   "end_ms": 1897454,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1930727,
+   "end_ms": 1952447,
+   "hits": [],
+   "keep": false
+  },
+  {
+   "start_ms": 1960042,
+   "end_ms": 1974020,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 1988828,
+   "end_ms": 2003960,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2014570,
+   "end_ms": 2021290,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2026520,
+   "end_ms": 2042984,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2051585,
+   "end_ms": 2068236,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2086850,
+   "end_ms": 2092660,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2103104,
+   "end_ms": 2119335,
+   "hits": [],
+   "keep": false
+  },
+  {
+   "start_ms": 2139793,
+   "end_ms": 2159855,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2170065,
+   "end_ms": 2193423,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2206195,
+   "end_ms": 2215940,
+   "hits": [],
+   "keep": false
+  },
+  {
+   "start_ms": 2223170,
+   "end_ms": 2230353,
+   "hits": [],
+   "keep": false
+  },
+  {
+   "start_ms": 2243310,
+   "end_ms": 2257452,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2329828,
+   "end_ms": 2343175,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2352535,
+   "end_ms": 2363620,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2369330,
+   "end_ms": 2387125,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2394950,
+   "end_ms": 2408367,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2422984,
+   "end_ms": 2432697,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2446205,
+   "end_ms": 2454995,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2476460,
+   "end_ms": 2485458,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2489038,
+   "end_ms": 2505656,
+   "hits": [],
+   "keep": false
+  },
+  {
+   "start_ms": 2515795,
+   "end_ms": 2536717,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2552484,
+   "end_ms": 2572410,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2583905,
+   "end_ms": 2603884,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2624579,
+   "end_ms": 2631837,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2660180,
+   "end_ms": 2668364,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2682240,
+   "end_ms": 2689864,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2698792,
+   "end_ms": 2708820,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2721950,
+   "end_ms": 2731600,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2746135,
+   "end_ms": 2754268,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2829755,
+   "end_ms": 2841125,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2854745,
+   "end_ms": 2874226,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2886497,
+   "end_ms": 2895017,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2902292,
+   "end_ms": 2914794,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2927824,
+   "end_ms": 2946665,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 2959180,
+   "end_ms": 2966177,
+   "hits": [],
+   "keep": false
+  },
+  {
+   "start_ms": 2976429,
+   "end_ms": 2990805,
+   "hits": [],
+   "keep": true
+  },
+  {
+   "start_ms": 3001630,
+   "end_ms": 3012569,
+   "hits": [],
+   "keep": true
+  }
+ ]
+}

@@ -88,7 +88,35 @@ def _describe(r: Rally) -> dict:
     }
 
 
-def evaluate(gt: RallySet, pred: RallySet, iou: float = 0.5, collar_ms: int = 250) -> dict:
+def _crop(pred: RallySet, until_ms: int) -> RallySet:
+    """Ne garde que les prédictions qui commencent dans la zone vérifiée."""
+    kept = [r for r in pred.rallies if r.start_ms < until_ms]
+    return RallySet(pred.video, pred.camera, pred.duration_ms, kept, pred.source)
+
+
+def window(rs: RallySet, start_ms: int | None, end_ms: int | None) -> RallySet:
+    """Ne garde que les rallyes qui commencent dans [start_ms, end_ms[."""
+    lo = start_ms if start_ms is not None else -1
+    hi = end_ms if end_ms is not None else 1 << 62
+    kept = [r for r in rs.rallies if lo <= r.start_ms < hi]
+    return RallySet(rs.video, rs.camera, rs.duration_ms, kept, rs.source, rs.reviewed_until_ms)
+
+
+def evaluate(
+    gt: RallySet,
+    pred: RallySet,
+    iou: float = 0.5,
+    collar_ms: int = 250,
+    start_ms: int | None = None,
+    end_ms: int | None = None,
+) -> dict:
+    """Si la vérité terrain n'est vérifiée que jusqu'à ``reviewed_until_ms``, les
+    prédictions au-delà sont ignorées. ``start_ms``/``end_ms`` restreignent l'évaluation
+    à une fenêtre (ex. la partie tenue à l'écart du réglage)."""
+    if gt.reviewed_until_ms is not None:
+        pred = _crop(pred, gt.reviewed_until_ms)
+    if start_ms is not None or end_ms is not None:
+        gt, pred = window(gt, start_ms, end_ms), window(pred, start_ms, end_ms)
     matches = match_rallies(gt.rallies, pred.rallies, iou)
     matched_g = {i for i, _, _ in matches}
     matched_p = {j for _, j, _ in matches}
