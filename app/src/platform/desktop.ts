@@ -47,7 +47,7 @@ export const desktopPlatform: Platform = {
   onDrop(handler) {
     const pending = getCurrentWebview().onDragDropEvent((e) => {
       if (e.payload.type !== "drop") return;
-      const video = e.payload.paths.find((p) => VIDEO_EXT.includes(p.split(".").pop() ?? ""));
+      const video = e.payload.paths.find((p) => VIDEO_EXT.includes((p.split(".").pop() ?? "").toLowerCase()));
       if (video) void sessionFromPath(video).then(handler);
     });
     return () => void pending.then((un) => un());

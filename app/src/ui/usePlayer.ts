@@ -50,6 +50,22 @@ export function usePlayer(clips: Clip[], selected: string | null) {
   const selectedRef = useRef(selected);
   selectedRef.current = selected;
 
+  const currentRef = useRef<string | null>(null);
+  currentRef.current = current;
+
+  // La liste a changé (point supprimé, exclu, déplacé) : on retrouve le point courant.
+  useEffect(() => {
+    const i = clips.findIndex((c) => c.id === currentRef.current);
+    if (i >= 0) {
+      indexRef.current = i;
+      return;
+    }
+    const t = clock.get();
+    const j = clips.findIndex((c) => t >= c.start && t < c.end);
+    indexRef.current = j;
+    setCurrent(clips[j]?.id ?? null);
+  }, [clips, clock]);
+
   const setIndex = useCallback((i: number) => {
     indexRef.current = i;
     setCurrent(clipsRef.current[i]?.id ?? null);

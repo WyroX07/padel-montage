@@ -32,6 +32,11 @@ body,
   margin: 0;
 }
 
+html,
+body {
+  overflow: clip;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -253,6 +258,8 @@ kbd {
 .app {
   display: grid;
   grid-template-rows: 52px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: clip;
   height: 100%;
 }
 
@@ -371,11 +378,15 @@ kbd {
   padding: 16px 16px 0;
 }
 
+.video-wrap {
+  overflow: hidden;
+}
+
 .video-wrap video {
-  max-width: 100%;
-  max-height: 100%;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 16px 16px 0;
+  width: calc(100% - 32px);
+  height: calc(100% - 16px);
   object-fit: contain;
   background: #000;
   border-radius: 8px;
@@ -498,8 +509,11 @@ kbd {
 /* ---------- Liste des points ---------- */
 
 .clips {
+  min-width: 0;
+  overflow: clip;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   min-height: 0;
   border-left: 1px solid var(--line);
   background: var(--panel);
@@ -519,8 +533,20 @@ kbd {
   font-weight: 650;
 }
 
+.clips-head > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.clips-head .btn {
+  flex: none;
+}
+
 .clips-head p {
   font-size: 12.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-variant-numeric: tabular-nums;
 }
 
@@ -637,6 +663,8 @@ kbd {
 }
 
 .clip-meta {
+  white-space: nowrap;
+  overflow: hidden;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -658,6 +686,7 @@ kbd {
 }
 
 .conf {
+  flex: none;
   width: 36px;
   height: 4px;
   border-radius: 2px;
@@ -758,6 +787,7 @@ kbd {
 /* ---------- Timeline ---------- */
 
 .timeline-panel {
+  min-width: 0;
   border-top: 1px solid var(--line);
   background: var(--panel);
   padding: 0 12px 10px;
@@ -813,6 +843,7 @@ kbd {
 .timeline-canvas {
   display: block;
   width: 100%;
+  min-width: 0;
   border-radius: 8px;
   touch-action: none;
 }

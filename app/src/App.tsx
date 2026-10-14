@@ -492,7 +492,7 @@ export function App() {
           <div className="tool-spacer">
             {selectedClip ? (
               <span className="selection-info">
-                Point {clips.indexOf(selectedClip) + 1} · {timecode(selectedClip.start)} → {timecode(selectedClip.end)} · {duration(selectedClip.end - selectedClip.start)}
+                {selectedClip.keep ? `Point ${montage.indexOf(selectedClip) + 1}` : "Sans intérêt"} · {timecode(selectedClip.start)} → {timecode(selectedClip.end)} · {duration(selectedClip.end - selectedClip.start)}
               </span>
             ) : null}
             {peaksProgress !== null && (
