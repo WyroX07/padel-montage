@@ -12,3 +12,6 @@
 | 2026-10-13 | Stack validée : appli de bureau Tauri 2 + React/TS, moteur Python local | Analyse locale, toutes plateformes, inférence ONNX |
 | 2026-10-13 | Un fil par chantier, chacun propriétaire de ses modules, de sa branche et de sa PR ; plan commun dans `docs/plan.md` | Travailler en parallèle sans conflits |
 | 2026-10-13 | Opus pour le plan et les décisions, Sonnet pour l'exécution, Haiku pour le répétitif | Demande de Maxence |
+| 2026-10-14 | Montage enregistré au format `padel-edit/v1`, à côté du rush (`app/src/model/edit.ts`) | Le projet suit la vidéo, sans base de données |
+| 2026-10-14 | « Sans intérêt » (K) = point gardé sur la timeline mais exclu du montage, exporté en `keep: false` | Le score continue de compter ce point |
+| 2026-10-14 | Export vidéo par FFmpeg externe : un encodage par point puis concaténation sans réencodage ; un FFmpeg livré avec l'appli doit être une build LGPL (sans libx264), repli sur l'encodeur matériel | Export rapide et licence compatible avec la vente |

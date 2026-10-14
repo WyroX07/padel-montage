@@ -24,6 +24,8 @@ Chaque fil lit ce fichier et `docs/decisions.md` avant de travailler. Le fil coo
 | 4 | Appli et timeline | nouveau fil (2026-10-13) | `app/` | démarrage |
 | 5 | Nouveaux rushes | Maxence | `eval/annotations/`, `eval/datasets.md` | 2e match sous un autre angle attendu |
 
+Le score/overlay (chantier 3) et l'appli (chantier 4) partagent le code TypeScript commun dans `packages/*`, déclarés en workspaces npm.
+
 ## Répartition des modèles
 
 - Opus : plan, architecture, décisions, choix de modèles et de métriques, revues.
