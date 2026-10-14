@@ -12,6 +12,7 @@ dependencies = ["numpy", "scipy"]
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff"]
+vision = ["onnxruntime", "opencv-python-headless", "scikit-learn"]
 
 [project.scripts]
 padel-engine = "padel_engine.cli:main"

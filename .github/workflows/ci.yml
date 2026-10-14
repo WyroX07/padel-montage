@@ -19,7 +19,7 @@ jobs:
       - name: Installer ffmpeg
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Installer le moteur
-        run: pip install -e '.[dev]'
+        run: pip install -e '.[dev,vision]'
       - name: Lint
         run: ruff check .
       - name: Tests

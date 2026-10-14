@@ -102,11 +102,12 @@ def _cmd_import(args: argparse.Namespace) -> int:
 def _cmd_eval(args: argparse.Namespace) -> int:
     results = []
     for g, p in _pair_inputs(args):
-        results.append(
-            evaluate.evaluate(
-                annotations.load(g), annotations.load(p), iou=args.iou, collar_ms=args.collar
-            )
-        )
+        gt, pred = annotations.load(g), annotations.load(p)
+        if args.from_s is not None:  # zone de test : rallyes qui commencent après from_s
+            lo = round(args.from_s * 1000)
+            gt.rallies = [r for r in gt.rallies if r.start_ms >= lo]
+            pred.rallies = [r for r in pred.rallies if r.start_ms >= lo]
+        results.append(evaluate.evaluate(gt, pred, iou=args.iou, collar_ms=args.collar))
     if not results:
         raise SystemExit("Aucune paire à évaluer")
     agg = evaluate.aggregate(results)
@@ -129,6 +130,47 @@ def _cmd_detect(args: argparse.Namespace) -> int:
     rs = detect_audio.detect(
         args.wav, video=args.video, camera=args.camera, duration_ms=args.duration_ms, params=params
     )
+    rs.save(args.output)
+    print(f"{len(rs.rallies)} points détectés, écrits dans {args.output}")
+    return 0
+
+
+def _cmd_persons(args: argparse.Namespace) -> int:
+    from . import persons
+
+    n = persons.detect_video(
+        args.video, args.output, fps=args.fps, offset_s=args.offset,
+        progress=lambda i: print(f"{i} images", file=sys.stderr, flush=True),
+    )
+    print(f"{n} images analysées, écrites dans {args.output}")
+    return 0
+
+
+def _load_v2_inputs(args: argparse.Namespace):
+    from . import persons
+
+    t, boxes = persons.load(args.persons)
+    strength, _ = detect_audio.onset_strength(args.wav)
+    return t, boxes, strength
+
+
+def _cmd_train_v2(args: argparse.Namespace) -> int:
+    from . import detect_v2
+
+    t, boxes, strength = _load_v2_inputs(args)
+    mask = None if args.until_s is None else t < args.until_s
+    model = detect_v2.train(t, boxes, strength, annotations.load(args.gt), mask=mask)
+    model.save(args.output)
+    print(f"Modèle v2 écrit : {args.output}")
+    return 0
+
+
+def _cmd_detect_v2(args: argparse.Namespace) -> int:
+    from . import detect_v2
+
+    t, boxes, strength = _load_v2_inputs(args)
+    model = detect_v2.V2Model.load(args.model)
+    rs = detect_v2.detect(model, t, boxes, strength, args.video, args.camera, args.duration_ms)
     rs.save(args.output)
     print(f"{len(rs.rallies)} points détectés, écrits dans {args.output}")
     return 0
@@ -169,6 +211,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--iou", type=float, default=0.5)
     s.add_argument("--collar", type=int, default=250, help="tolérance des coups en ms")
     s.add_argument("--json", action="store_true", help="sortie JSON")
+    s.add_argument("--from-s", type=float, help="n'évalue que les rallyes commençant après (s)")
     s.set_defaults(func=_cmd_eval)
 
     s = sub.add_parser("detect", help="détecteur v0 (audio seul) : WAV 24 kHz -> points")
@@ -181,6 +224,31 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--min-hits", type=int, default=4)
     s.add_argument("-o", "--output", required=True)
     s.set_defaults(func=_cmd_detect)
+
+    s = sub.add_parser("persons", help="détecte les personnes image par image (YOLOX, ONNX)")
+    s.add_argument("video")
+    s.add_argument("--fps", type=float, default=5.0)
+    s.add_argument("--offset", type=float, default=0.0, help="décalage (s) d'un morceau de rush")
+    s.add_argument("-o", "--output", required=True, help="fichier .npz")
+    s.set_defaults(func=_cmd_persons)
+
+    s = sub.add_parser("train-v2", help="apprend le détecteur v2 (image + son)")
+    s.add_argument("wav")
+    s.add_argument("--persons", nargs="+", required=True, help="sorties de `persons`, dans l'ordre")
+    s.add_argument("--gt", required=True)
+    s.add_argument("--until-s", type=float, help="n'apprend que sur le début du rush (s)")
+    s.add_argument("-o", "--output", required=True)
+    s.set_defaults(func=_cmd_train_v2)
+
+    s = sub.add_parser("detect-v2", help="détecteur v2 (image + son) -> points")
+    s.add_argument("wav")
+    s.add_argument("--persons", nargs="+", required=True)
+    s.add_argument("--model", required=True)
+    s.add_argument("--video", required=True)
+    s.add_argument("--camera", default="autre", choices=annotations.CAMERAS)
+    s.add_argument("--duration-ms", type=int)
+    s.add_argument("-o", "--output", required=True)
+    s.set_defaults(func=_cmd_detect_v2)
     return p
 
 

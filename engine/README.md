@@ -22,6 +22,20 @@ padel-engine eval --gt gt/match.json --pred pred/match.json
 padel-engine eval --gt-dir gt/ --pred-dir pred/ --json
 ```
 
+### Détecteur v2 (image + son)
+
+```bash
+pip install -e engine[vision]                     # onnxruntime, opencv, scikit-learn
+padel-engine persons match.mp4 -o persons.npz     # YOLOX-s, poids téléchargés au 1er appel
+padel-engine train-v2 match24.wav --persons persons.npz --gt gt/match.json -o v2.pkl
+padel-engine detect-v2 match24.wav --persons persons.npz --model v2.pkl --video match.mp4 -o pred.json
+padel-engine eval --gt gt/match.json --pred pred.json --from-s 1568   # zone de test seule
+```
+
+Un rush découpé en morceaux : `persons` sur chacun avec `--offset`, puis tous les `.npz`
+dans l'ordre après `--persons`. Le modèle YOLOX-s (Apache-2.0) est mis en cache dans
+`~/.cache/padel-engine` (ou `PADEL_ENGINE_MODELS`) et vérifié par empreinte SHA-256.
+
 Caméras : `terrain`, `hauteur_vitre`, `filet`, `trepied_vitre`, `autre`.
 `eval` accepte `--iou` (0.5 par défaut) et `--collar` (250 ms par défaut, pour les coups).
 Un biais positif signifie que la prédiction arrive en retard sur la vérité terrain.
