@@ -199,12 +199,11 @@ pub fn peaks(video: &Path, bin_ms: u32, cache: &Path, progress: impl Fn(f64)) ->
             break;
         }
         let mut bytes = &buf[..n];
-        let mut pair = [0u8; 2];
         if let Some(lo) = carry.take() {
-            pair = [lo, bytes[0]];
+            let first = bytes[0];
             bytes = &bytes[1..];
             push_sample(
-                i16::from_le_bytes(pair),
+                i16::from_le_bytes([lo, first]),
                 &mut count,
                 &mut max,
                 per_bin,
@@ -213,10 +212,9 @@ pub fn peaks(video: &Path, bin_ms: u32, cache: &Path, progress: impl Fn(f64)) ->
             samples += 1;
         }
         let even = bytes.len() & !1;
-        for ch in bytes[..even].chunks_exact(2) {
-            pair.copy_from_slice(ch);
+        for ch in bytes[..even].as_chunks::<2>().0 {
             push_sample(
-                i16::from_le_bytes(pair),
+                i16::from_le_bytes(*ch),
                 &mut count,
                 &mut max,
                 per_bin,
